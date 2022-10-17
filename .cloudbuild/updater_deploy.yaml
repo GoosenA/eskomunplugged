@@ -1,0 +1,78 @@
+steps:
+    # Modify Github tag name for image tag
+  - name: gcr.io/cloud-builders/gcloud
+    id: Extract image tag
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        TAG=${TAG_NAME}
+        echo ${TAG//./-} | cut -d'/' -f 2 > /workspace/_TAG
+
+    # Substitute project ID in environmental file
+  - name: gcr.io/cloud-builders/gcloud
+    id: Substitute GCP Project ID
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        sed -i 's/replace_project_id_here/${PROJECT_ID}/g' .cloudbuild/updater.yaml
+
+
+    # Build container image
+  - name: docker
+    id: Build container image
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        docker build \
+        -f .cloudbuild/updater_Dockerfile \
+        -t ${_SERVICE_NAME}:latest .
+
+    # Tag image and push the container image to the Artifact Registry
+  - name: docker
+    id: Tag image and push to artifact registry
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        docker tag ${_SERVICE_NAME} ${_IMAGE}:latest
+        docker tag ${_SERVICE_NAME} ${_IMAGE}:$(cat /workspace/_TAG)
+        docker push --all-tags ${_IMAGE}
+
+    # Deploy container image to Cloud Run service
+  - name: gcr.io/cloud-builders/gcloud
+    id: Deploy to Cloud Run
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gcloud run deploy ${_SERVICE_NAME} \
+        --image=${_IMAGE}:$(cat /workspace/_TAG) \
+        --revision-suffix=$(cat /workspace/_TAG) \
+        --region=${_REGION} \
+        --platform=managed \
+        --service-account=${_SERVICE_ACCOUNT} \
+        --set-secrets=${_SECRET_NAME} \
+        --min-instances=0 \
+        --max-instances=10 \
+        --cpu=1 \
+        --memory=256Mi \
+        --ingress=internal \
+        --timeout=300 \
+        --concurrency=10 \
+        --env-vars-file=.cloudbuild/updater.yaml
+timeout: 300s
+images:
+  - ${_IMAGE}:latest
+
+options:
+  dynamic_substitutions: true
+substitutions:
+  _IMAGE: ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPOSITORY}/${_SERVICE_NAME}
+  _ARTIFACT_REPOSITORY:
+  _REGION:
+  _SECRET_NAME:
+  _SERVICE_ACCOUNT:
+  _SERVICE_NAME:

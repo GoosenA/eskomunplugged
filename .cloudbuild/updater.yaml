@@ -1,0 +1,4 @@
+TZ: UTC
+SECRET_FILE: secret
+PUBSUB_TOPIC: stage_updater
+GOOGLE_CLOUD_PROJECT: replace_project_id_here
