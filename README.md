@@ -8,10 +8,21 @@ We managed to develop a Slack app that allows a user to set their area by search
 The user loadshedding schedules can then be queried from the Slack bot to see when everyone in a workspace that has configured the Slack app, has loadshedding.
 
 ## Database
-For the database we used Google Firestore to store Slack user IDs and their EskomSePush area information (area IS and stage information). The data is stored in teh following format:
+For the database we used Google Firestore to store Slack user IDs and their EskomSePush area information (area IS and stage information). Due to constraints of working with C#, the data is stored in the following format:
 ```
 {
-    data format
+  "area": "test_user_area_id",
+  "name": "test_user",
+  "stage_one": [],
+  "stage_two": ["08:00","10:00"],
+  "stage_three": ["08:00","10:00"],
+  "stage_four": ["08:00","10:00", "14:00", "16:00"],
+  "stage_five": ["08:00","10:00", "14:00", "16:00"],
+  "stage_six": ["08:00","10:00", "14:00", "16:00"],
+  "stage_seven": ["08:00","10:00", "14:00", "16:00", "20:00", "22:00"],
+  "stage_eight": ["08:00","10:00", "14:00", "16:00", "20:00", "22:00"],
+  "team_id: "team_id",
+  "user_id: "user_id"
 }
 
 ```
