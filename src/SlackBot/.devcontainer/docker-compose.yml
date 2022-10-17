@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  slackbot:
+    container_name: slackbot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ../.config/config.env
+    volumes:
+      - ..:/workspace:cached
+    command: /bin/sh -c "while sleep 1000; do :; done" # NB! Important! Keeps container alive
