@@ -1,0 +1,1072 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SlackBot</name>
+    </assembly>
+    <members>
+        <member name="T:SlackBot.Constants">
+            <summary>
+            Application constants
+            </summary>
+        </member>
+        <member name="F:SlackBot.Constants.EspStatus">
+            <summary>
+            The current and next loadshedding statuses for South Africa and (Optional) municipal overrides
+            </summary>
+        </member>
+        <member name="F:SlackBot.Constants.EspAreaInformation">
+            <summary>
+            This single request has everything you need to monitor upcoming loadshedding events for the chosen suburb.
+            </summary>
+        </member>
+        <member name="F:SlackBot.Constants.EspAreasNearby">
+            <summary>
+            Find areas based on GPS coordinates (latitude and longitude).
+            </summary>
+        </member>
+        <member name="F:SlackBot.Constants.EspAreasSearch">
+            <summary>
+            Search area based on text
+            </summary>
+        </member>
+        <member name="F:SlackBot.Constants.EspTopicsNearby">
+            <summary>
+            Find topics created by users based on GPS coordinates (latitude and longitude).
+            </summary>
+        </member>
+        <member name="F:SlackBot.Constants.EspCheckAllowance">
+            <summary>
+            Check allowance allocated for token
+            </summary>
+        </member>
+        <member name="T:SlackBot.Controllers.NotificationController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:SlackBot.Controllers.NotificationController.#ctor(SlackBot.Library.ApiClient,SlackBot.Library.SlackClient,Google.Cloud.Firestore.FirestoreDb,SlackBot.Secret)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="slackClient">Api Client object</param>
+            <param name="firestore">Secret object</param>
+        </member>
+        <member name="M:SlackBot.Controllers.NotificationController.PostSchedule(System.Collections.Generic.Dictionary{System.String,System.String})">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SlackBot.Controllers.SuburbController">
+            <summary>
+            APIs related to suburb data
+            </summary>
+        </member>
+        <member name="M:SlackBot.Controllers.SuburbController.#ctor(SlackBot.Library.ApiClient,SlackBot.Library.SlackClient,Google.Cloud.Firestore.FirestoreDb,Google.Cloud.PubSub.V1.PublisherServiceApiClient,SlackBot.Library.MetadataServerClient,SlackBot.Secret)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="client">Api Client object</param>
+            <param name="secret">Secret object</param>
+        </member>
+        <member name="M:SlackBot.Controllers.SuburbController.GetSuburbsByText(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Get available suburbs as select menu options filtered by search criteria
+            </summary>
+            <param name="info">Filter value</param>
+            <returns>Select Menu option list of available suburbs</returns>
+        </member>
+        <member name="M:SlackBot.Controllers.SuburbController.GetSuburbsByLocation(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Get available suburbs as select menu options filtered by GPS coordinates
+            </summary>
+            <param name="info">Latitude coordinate</param>
+            <returns>Select Menu option list of available suburbs</returns>
+        </member>
+        <member name="M:SlackBot.Controllers.SuburbController.SetSuburb(System.Collections.Generic.Dictionary{System.String,System.String})">
+             <summary>
+            
+             </summary>
+             <param name="info"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SlackBot.Controllers.UpdateController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:SlackBot.Controllers.UpdateController.#ctor(SlackBot.Library.ApiClient,Google.Cloud.Firestore.FirestoreDb,SlackBot.Secret)">
+             <summary>
+            
+             </summary>
+             <param name="client"></param>
+             <param name="firestore"></param>
+             <param name="secret"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Controllers.UpdateController.UpdateSchedule">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="T:SlackBot.Library.ApiClient">
+            <summary>
+            API Client to simplify making API requests
+            </summary>
+        </member>
+        <member name="P:SlackBot.Library.ApiClient._client">
+            <summary>
+            HttpClient object to use when making API requests
+            </summary>
+        </member>
+        <member name="M:SlackBot.Library.ApiClient.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SlackBot.Library.ApiClient.MakeRequest(System.String,System.String)">
+            <summary>
+            Make a REST API request with a specified method to a specified URL
+            </summary>
+            <param name="url">URL to which the request should be made</param>
+            <param name="authToken">Authorisation token used in the "key" header</param>
+            <returns>Response content as string</returns>
+        </member>
+        <member name="T:SlackBot.Library.ESPHandler">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:SlackBot.Library.ESPHandler.#ctor(SlackBot.Library.ApiClient,System.String)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="client">Api Client object</param>
+            <param name="token">Secret object</param>
+        </member>
+        <member name="M:SlackBot.Library.ESPHandler.GetAreasByText(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="value"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.ESPHandler.GetAreasByGPS(System.String,System.String)">
+             <summary>
+            
+             </summary>
+             <param name="lat"></param>
+             <param name="lon"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.ESPHandler.GetSchedule">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.ESPHandler.GetInformationForAreaById(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="id"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.ESPHandler.GenerateScheduleForAreaById(SlackBot.Models.FirestoreEntry)">
+             <summary>
+            
+             </summary>
+             <param name="entry"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SlackBot.Library.FirestoreHandler">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Library.FirestoreHandler._collection">
+             <summary>
+            
+             </summary>
+             <value></value>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.#ctor(Google.Cloud.Firestore.FirestoreDb,System.String)">
+             <summary>
+            
+             </summary>
+             <param name="firestore"></param>
+             <param name="collection"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.GetEntriesByTeamId(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="teamId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.GetEntriesByUserId(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="userId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.GetCompleteEntriesByUserId(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="userId"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.GetCompleteEntries">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.CreateEntry(SlackBot.Models.FirestoreEntry)">
+             <summary>
+            
+             </summary>
+             <param name="entry"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.UpdateField(Google.Cloud.Firestore.DocumentReference,System.String,System.Object)">
+             <summary>
+            
+             </summary>
+             <param name="document"></param>
+             <param name="field"></param>
+             <param name="value"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.UpdateEntryField(Google.Cloud.Firestore.DocumentReference,System.Collections.Generic.Dictionary{Google.Cloud.Firestore.FieldPath,System.Object})">
+             <summary>
+            
+             </summary>
+             <param name="document"></param>
+             <param name="changes"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.UpdateEntry(Google.Cloud.Firestore.DocumentReference,SlackBot.Models.FirestoreEntry)">
+             <summary>
+            
+             </summary>
+             <param name="document"></param>
+             <param name="entry"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Library.FirestoreHandler.DeleteEntry(Google.Cloud.Firestore.DocumentReference)">
+             <summary>
+            
+             </summary>
+             <param name="document"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SlackBot.Library.MetadataServerClient">
+            <summary>
+            API Client to simplify making API requests
+            </summary>
+        </member>
+        <member name="P:SlackBot.Library.MetadataServerClient._client">
+            <summary>
+            HttpClient object to use when making API requests
+            </summary>
+        </member>
+        <member name="M:SlackBot.Library.MetadataServerClient.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SlackBot.Library.MetadataServerClient.GetProjectID">
+            <summary>
+            Get the current GCP project ID
+            </summary>
+            <returns>GCP Project ID</returns>
+        </member>
+        <member name="M:SlackBot.Library.MetadataServerClient.MakeRequest(System.String)">
+            <summary>
+            Make a REST API request with a specified method to a specified URL
+            </summary>
+            <param name="url">URL to which the request should be made</param>
+            <returns>Response content as string</returns>
+        </member>
+        <member name="T:SlackBot.Library.PubSubHandler">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:SlackBot.Library.PubSubHandler.#ctor(Google.Cloud.PubSub.V1.PublisherServiceApiClient,System.String,System.String)">
+             <summary>
+            
+             </summary>
+             <param name="client"></param>
+             <param name="projectId"></param>
+             <param name="topic"></param>
+        </member>
+        <member name="M:SlackBot.Library.PubSubHandler.PublishMessage(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="messageContent"></param>
+        </member>
+        <member name="T:SlackBot.Library.SlackClient">
+            <summary>
+            API Client to simplify making API requests
+            </summary>
+        </member>
+        <member name="P:SlackBot.Library.SlackClient._client">
+            <summary>
+            HttpClient object to use when making API requests
+            </summary>
+        </member>
+        <member name="M:SlackBot.Library.SlackClient.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:SlackBot.Library.SlackClient.MakeRequest(System.String,System.Object)">
+            <summary>
+            Make a REST API request with a specified method to a specified URL
+            </summary>
+            <param name="url">URL to which the request should be made</param>
+            <param name="content"></param>
+            <returns>Response content as string</returns>
+        </member>
+        <member name="T:SlackBot.Middleware.Extensions">
+            <summary>
+            Extensions used for dependency injection
+            </summary>
+        </member>
+        <member name="M:SlackBot.Middleware.Extensions.AddSecret``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Maps a secret from file.
+            Expects the path to the secret to be in an env variable named SECRET_FILE
+            </summary>
+            <param name="services"></param>
+            <param name="variableName">
+              [Optional] Name used for additional secrets that need to be mapped
+            </param>
+            <typeparam name="T">The type of secret model</typeparam>
+        </member>
+        <member name="M:SlackBot.Middleware.Extensions.AddApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add an API client that can be used throughout the application
+            </summary>
+            <param name="services">Existing IServiceCollection</param>
+            <returns>Updated IServiceCollection with API client</returns>
+        </member>
+        <member name="M:SlackBot.Middleware.Extensions.AddMetadataServerClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add a Metadata Server API client that can be used throughout the application
+            </summary>
+            <param name="services">Existing IServiceCollection</param>
+            <returns>Updated IServiceCollection with Metadata Server API client</returns>
+        </member>
+        <member name="M:SlackBot.Middleware.Extensions.AddSlackClient(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add a Metadata Server API client that can be used throughout the application
+            </summary>
+            <param name="services">Existing IServiceCollection</param>
+            <returns>Updated IServiceCollection with Metadata Server API client</returns>
+        </member>
+        <member name="M:SlackBot.Middleware.Extensions.AddFireStore(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+             <summary>
+            
+             </summary>
+             <param name="services"></param>
+             <returns></returns>
+        </member>
+        <member name="M:SlackBot.Middleware.Extensions.AddPubSub(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+             <summary>
+            
+             </summary>
+             <param name="services"></param>
+             <returns></returns>
+        </member>
+        <member name="T:SlackBot.Middleware.InvalidRouteRedirect">
+            <summary>
+            Middleware that redirects invalid requests to the swagger documentation
+            </summary>
+        </member>
+        <member name="F:SlackBot.Middleware.InvalidRouteRedirect._next">
+            <summary>
+            Request pipeline
+            </summary>
+        </member>
+        <member name="M:SlackBot.Middleware.InvalidRouteRedirect.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            Middleware constructor
+            </summary>
+            <param name="next">Pipeline information</param>
+        </member>
+        <member name="M:SlackBot.Middleware.InvalidRouteRedirect.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Main function that redirects invalid requests to the swagger documentation
+            NB! The requests is completed and redirected afterwards
+            </summary>
+            <param name="context">Transaction context</param>
+            <returns>
+              Response from endpoint if a valid request, redirect to documentation otherwise
+            </returns>
+        </member>
+        <member name="T:SlackBot.Models.BlockKitMessage">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitMessage.blocks">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.PlainTextDescriptor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.PlainTextDescriptor.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.PlainTextDescriptor.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.HeaderBlock">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.HeaderBlock.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.HeaderBlock.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.DividerBlock">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.DividerBlock.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.MarkdownTextDescriptor">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.MarkdownTextDescriptor.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.MarkdownTextDescriptor.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.SectionBlock">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SectionBlock.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SectionBlock.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SectionBlock.accessory">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.StaticSelectAccessory">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.StaticSelectAccessory.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.StaticSelectAccessory.placeholder">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.StaticSelectAccessory.options">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.StaticSelectAccessory.action_id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.SelectOption">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectOption.value">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectOption.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.SelectOptionText">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectOptionText.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectOptionText.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectOptionText.emoji">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.SelectPlaceHolder">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectPlaceHolder.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectPlaceHolder.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectPlaceHolder.emoji">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.OverflowAccessory">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowAccessory.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowAccessory.options">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowAccessory.action_id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.OverflowOption">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowOption.value">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowOption.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.OverflowText">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowText.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowText.text">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.OverflowText.emoji">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.BlockKitResponse">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponse.actions">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponse.user">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponse.response_url">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.BlockKitResponseUser">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseUser.id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseUser.username">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseUser.name">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseUser.team_id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.BlockKitResponseActions">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseActions.action_ts">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseActions.type">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseActions.action_id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseActions.selected_option">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.BlockKitResponseActionOption">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.BlockKitResponseActionOption.value">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.AreaScheduleInformation">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.AreaScheduleInformation.events">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.AreaScheduleInformation.info">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.AreaScheduleInformation.schedule">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.Event">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Event.end">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Event.note">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Event.start">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.AreaInformation">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.AreaInformation.name">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.AreaInformation.region">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.ScheduleDayInformation">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.ScheduleDayInformation.days">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.ScheduleDay">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.ScheduleDay.date">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.ScheduleDay.name">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.ScheduleDay.stages">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.EspAreas">
+            <summary>
+            Eskom se push Areas
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.EspAreas.areas">
+            <summary>
+            List of areas
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.area">
+            <summary>
+            Model describing a geographic area
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.area.id">
+            <summary>
+            Area Id
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.area.name">
+            <summary>
+            Name of the area
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.area.region">
+            <summary>
+            Region in which the area falls
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.GPSAreas">
+            <summary>
+            Eskom se push Areas
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.GPSAreas.areas">
+            <summary>
+            List of areas
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.GpsArea">
+            <summary>
+            Model describing a geographic area
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.GpsArea.id">
+            <summary>
+            Area Id
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.GpsArea.count">
+            <summary>
+            Name of the area
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.Stage">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Stage.stage">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Stage.stage_start_timestamp">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.Region">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Region.name">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Region.next_stages">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Region.stage">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Region.stage_updated">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.Grids">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Grids.capetown">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Grids.eskom">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.Schedule">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.Schedule.status">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.SimplifiedSchedule">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SimplifiedSchedule.start">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.SimplifiedSchedule.end">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.FirestoreEntry">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.user_id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.name">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.team_id">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.area">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_one">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_two">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_three">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_four">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_five">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_six">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_seven">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.FirestoreEntry.stage_eight">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Models.SelectMenuOptionList">
+            <summary>
+            Select Menu option list items
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectMenuOptionList.options">
+            <summary>
+            Select menu option list
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.SelectMenuOption">
+            <summary>
+            Select Menu option item
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectMenuOption.text">
+            <summary>
+            Select menu option text object
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectMenuOption.value">
+            <summary>
+            Select Menu Option Value
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.SelectMenuOptionText">
+            <summary>
+            Select Menu Option text
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectMenuOptionText.type">
+            <summary>
+            Data type
+            </summary>
+        </member>
+        <member name="P:SlackBot.Models.SelectMenuOptionText.text">
+            <summary>
+            Test to display in the Select Menu dropdown
+            </summary>
+        </member>
+        <member name="T:SlackBot.Models.UserSchedule">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.UserSchedule.Name">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:SlackBot.Models.UserSchedule.Schedule">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:SlackBot.Secret">
+            <summary>
+            Application secret
+            </summary>
+        </member>
+        <member name="P:SlackBot.Secret.PubSub">
+            <summary>
+            PubSub credentials
+            </summary>
+        </member>
+        <member name="P:SlackBot.Secret.EspToken">
+            <summary>
+            Eskom se push Authentication token for API
+            </summary>
+        </member>
+    </members>
+</doc>

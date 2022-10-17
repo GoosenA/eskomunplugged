@@ -29,9 +29,36 @@ For the database we used Google Firestore to store Slack user IDs and their Esko
 
 
 ## Slack app
-TODO - JDM
 
+### Description
+The Slack app provides a simplistic way of configuring your area along with viewing the applicable load shedding schedules for users in the Slack workspace and interacts with the custom Slack app backend.
+Areas for your profile can be configured by making use of the `/suburbs [suburb text]` or `/gps [lat,lon]` commands. Both options will present the user with a dropdown list of
+matching suburbs and selecting one of the options will update the active area for the user. By using the `/schedules` command, a list of users is returned with their schedules for the current day. These schedules are updated using the stage updater backend and/or by updating your area.
 
+`/suburbs [suburb text]` | `/gps [lat,lon]`
+```
+Slack -{REST}-> CloudRun -{BlockKit}-> Slack -{Selected dropdown option}-> CloudRun -{Message}-> PubSub -{Message}> EventArc -{Message}> CloudRun -{Entry}> Firestore
+```
+
+`/schedules`
+```
+Slack -{REST}-> CloudRun -{BlockKit}-> Slack
+```
+
+### Tools used
+For this part of the project we used:
+- .NET6 and various libraries, including 
+    - Google.Cloud.PubSub
+    - Google.Cloud.FireStore
+    - Custom classes and functions
+- Google Cloud Run
+- Google Cloud Build
+- Google Cloud Secret Manager
+- Google Cloud PubSub
+- Google Cloud EventArc
+- Firestore
+- Slack BlockKit
+- Slack App
 
 ## Stage updater backend
 

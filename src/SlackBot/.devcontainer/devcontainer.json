@@ -1,0 +1,82 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.4/containers/dotnet
+{
+    "name": "slackbot", // Update name to repository name
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "slackbot",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "settings": {
+      "editor.codeActionsOnSave": [
+        "source.organizeImports",
+        "source.fixAll"
+      ],
+      "debug.onTaskErrors": "abort",
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "editor.autoClosingBrackets": "languageDefined",
+      "editor.autoIndent": "full",
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+      "omnisharp.useModernNet": true,
+      "omnisharp.analyzeOpenDocumentsOnly": true,
+      "omnisharp.enableEditorConfigSupport": true,
+      "omnisharp.enableMsBuildLoadProjectsOnDemand": true,
+      "omnisharp.enableRoslynAnalyzers": true,
+      "omnisharp.organizeImportsOnFormat": true,
+      "search.exclude": {
+        "**/.git": true,
+        "**/bin": true,
+        "**/obj": true,
+        "**/mono_crash.**.json": true
+      },
+      "files.exclude": {
+        "**/.git": true,
+        "**/bin": true,
+        "**/obj": true,
+        "**/mono_crash.**.json": true,
+        "**/docker-compose.dcproj.user": true,
+        "**/TestResults": true,
+        "**/.vs": true,
+      },
+      "cSpell.language": "en-GB",
+      "cSpell.words": [
+        "omnisharp",
+        "openapi"
+      ],
+      "editor.rulers": [
+        {
+          "column": 100,
+          "color": "#008C8C"
+        }
+      ]
+    },
+    "remoteEnv": {
+      "TZ": "Africa/Johannesburg"
+    },
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+      "ms-dotnettools.csharp",
+      "formulahendry.dotnet-test-explorer",
+      "VisualStudioExptTeam.vscodeintellicode",
+      "fernandoescolar.vscode-solution-explorer",
+      "streetsidesoftware.code-spell-checker",
+      "humao.rest-client",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode.powershell",
+      "github.vscode-pull-request-github",
+      "redhat.vscode-yaml",
+      "editorconfig.editorconfig",
+      "geeebe.duplicate",
+      "IronGeek.vscode-env",
+      "k--kato.docomment"
+    ],
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "portsAttributes": {
+      "8098": {
+        "label": "Default entry port",
+        "onAutoForward": "notify"
+      }
+    }
+  }
+  
