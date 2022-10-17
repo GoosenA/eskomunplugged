@@ -27,6 +27,20 @@ TODO - JDM
 ### Description
 The stage updater updates a users loadshedding stage schedules and stores it in FireStore for the Slack app to use. The stage updater works by retrieving the area information for a user using the configured area_id for that user. The loadshedding stage information is retrieved using the /area_information endpoint and formatted and stored in FireStore.
 
+```mermaid
+flowchart LR
+  Scheduler -->|all| Topic[PubSub topic]
+  subgraph PubSub
+    Topic --> Push[Push message]
+  end 
+  subgraph CloudRun["Stage updater service"]
+    Push-->all{If message = all}
+    all-->|Yes| foreach[Foreach user in DB]
+    all-->|No| update_stages[Update user LS schedule]
+    foreach-->|user_id| Topic
+  end
+```
+
 ### Tools used
 For this part of the project we used:
 - Python3 and various libraries like 
@@ -41,3 +55,7 @@ For this part of the project we used:
 
 
 ## Improvements
+For this project the focus was on delivering a minimum viable product for the Offerzen ESP build demo. As such, there are many improvements that can be made to this build.
+- Feature: Add Slack status updates for users
+- Bug: Fix Gooogle Code build deployment error (No module named 'main')
+- Task: Overall improvements to code quality
